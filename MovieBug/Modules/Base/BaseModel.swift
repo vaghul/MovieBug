@@ -10,7 +10,7 @@ import UIKit
 
 class BaseModel: NSObject {
 
-
+	var constants = Macros()
 	
 	func MakeGetRequest(_ urlstring:String,body:[String:AnyObject],method:String) 	{
 		
