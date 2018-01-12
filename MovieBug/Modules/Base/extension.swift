@@ -91,4 +91,11 @@ extension String {
 	
 }
 
+extension UIImageView {
+	
+	func MakeViewRounded(){
+		self.layer.cornerRadius = 5.0
+	}
+}
+
 
