@@ -12,7 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
-
+	var networkstatus:AFNetworkReachabilityStatus!
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 		// Override point for customization after application launch.
@@ -21,9 +21,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		navigation.navigationBar.isHidden = true
 		self.window?.rootViewController = navigation
 		self.window?.makeKeyAndVisible()
+		networkstatus = AFNetworkReachabilityManager.shared().networkReachabilityStatus
+
+		NotificationCenter.default.addObserver(self, selector: #selector(handleNetworkChange), name: NSNotification.Name.AFNetworkingReachabilityDidChange, object: nil)
 
 		return true
 	}
+	
+	@objc func handleNetworkChange(){
+		networkstatus = AFNetworkReachabilityManager.shared().networkReachabilityStatus
+		NotificationCenter.default.post(name: NSNotification.Name(rawValue: "INTERNET"), object: nil)
+	}
+
 
 	func applicationWillResignActive(_ application: UIApplication) {
 		// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

@@ -11,6 +11,9 @@ import UIKit
 class BaseView: UIView {
 	private var overlayView:UIView!
 	private var myActivityIndicator:UIActivityIndicatorView!
+	private var viewInternetConnevtivity:UIView!
+	private var labelInternetConnevtivity:UILabel!
+
 	var constants:Macros!
 	func onCreate(){
 		self.backgroundColor = .white
@@ -23,6 +26,16 @@ class BaseView: UIView {
 		
 		overlayView.addSubview(myActivityIndicator)
 		
+		viewInternetConnevtivity = UIView()
+		viewInternetConnevtivity.backgroundColor = UIColor.lightGray
+		viewInternetConnevtivity.isOpaque = true
+		
+		labelInternetConnevtivity = UILabel()
+		labelInternetConnevtivity.text = "No internet connection"
+		labelInternetConnevtivity.textColor = .white
+		labelInternetConnevtivity.textAlignment = .center
+		labelInternetConnevtivity.alpha = 0.0
+		viewInternetConnevtivity.addSubview(labelInternetConnevtivity)
 	}
 	
 	override func layoutSubviews() {
@@ -30,6 +43,9 @@ class BaseView: UIView {
 		overlayView.frame = CGRect(x: 0, y: 0, width: self.getWidth(), height: self.getHeight())
 		myActivityIndicator.center = CGPoint(x: overlayView.bounds.width / 2, y: overlayView.bounds.height / 2)
 		
+		viewInternetConnevtivity.frame = CGRect(x: 0, y: getSafeAreaTop(), width: self.getWidth(), height: calculatePercentHeight(60))
+		labelInternetConnevtivity.frame = CGRect(x: 0, y: getSafeAreaTop(), width: viewInternetConnevtivity.frame.size.width, height: calculatePercentHeight(60))
+
 	}
 	
 	func showLoader(){
@@ -40,6 +56,18 @@ class BaseView: UIView {
 	func removeLoader(){
 		myActivityIndicator.stopAnimating()
 		overlayView.removeFromSuperview()
+	}
+	
+	func internetAvailable(_ flag:Bool){
+		if flag{
+			labelInternetConnevtivity.alpha = 0.0
+			viewInternetConnevtivity.removeFromSuperview()
+			labelInternetConnevtivity.removeFromSuperview()
+		}else{
+			viewInternetConnevtivity.addSubview(labelInternetConnevtivity)
+			addSubview(viewInternetConnevtivity)
+			labelInternetConnevtivity.alpha = 1.0
+		}
 	}
 	
 	func calculatePercentWidth(_ val:CGFloat) -> CGFloat {
@@ -69,4 +97,5 @@ class BaseView: UIView {
 			return 0.0
 		}
 	}
+	
 }

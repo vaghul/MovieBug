@@ -12,15 +12,25 @@ extension MovieListViewController: MovieListModelDelegate{
 	
 	func recievedResponce(_ value: [String : AnyObject], method: String) {
 		if method == "popularmovies"{
+			myView.removeLoader()
 			myView.tableMovieList.delegate = self
 			myView.tableMovieList.dataSource = self
 			myView.tableMovieList.reloadData()
+			for i in 0..<model.arrayPopularMovie.count {
+				var dict = model.arrayPopularMovie[i] as! [String:AnyObject]
+				dict["page"] = model.currentpage as AnyObject
+				dbhelper.savePoints(dict as [AnyHashable : Any])
+			}
 		}else{
 			if model.arrayPopularMovie.count > myView.tableMovieList.LoadedRows {
 				var array = [IndexPath]()
 				for i in myView.tableMovieList.LoadedRows..<model.arrayPopularMovie.count {
 					array.append(IndexPath(item: i, section: 0))
+					var dict = model.arrayPopularMovie[i] as! [String:AnyObject]
+					dict["page"] = model.currentpage as AnyObject
+					dbhelper.savePoints(dict as [AnyHashable : Any])
 				}
+				
 				if array.count > 0{
 					myView.tableMovieList.beginUpdates()
 					myView.tableMovieList.insertRows(at: array, with: .none)
@@ -28,6 +38,7 @@ extension MovieListViewController: MovieListModelDelegate{
 				}
 			}
 		}
+		Storage.sharedInstance.storeValue(model.currentpage, key: "currentpage")
 		myView.tableMovieList.removeLoadMore()
 		myView.tableMovieList.LoadedRows = model.arrayPopularMovie.count
 
@@ -51,7 +62,7 @@ extension MovieListViewController: UITableViewDelegate,UITableViewDataSource{
 		Headerview.backgroundColor = myView.constants.colorPaleGray
 		Headerview.isUserInteractionEnabled = true
 		let labelTitle = UILabel(frame: CGRect(x: myView.calculatePercentWidth(16), y:  myView.calculatePercentHeight(16), width: self.view.getWidth() , height: 20))
-		labelTitle.setAttributes(myView.constants.FontRegular1, fontSize: myView.constants.FontSize15, textColor: myView.constants.colorWarmGray, textAlignment: .left)
+		labelTitle.setAttributes(myView.constants.FontRegular1, fontSize: myView.constants.FontSize15, textColor: myView.constants.colorWarmGray, textAlignment: .center)
 		labelTitle.text = "Popular Movies"
 		Headerview.addSubview(labelTitle)
 		return Headerview
