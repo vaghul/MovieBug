@@ -8,6 +8,12 @@
 
 import UIKit
 
+extension MovieListViewController:MovieListViewDelegate{
+	
+	func onClickRefresh() {
+		startLoading()
+	}
+}
 extension MovieListViewController: MovieListModelDelegate{
 	
 	func recievedResponce(_ value: [String : AnyObject], method: String) {
@@ -17,18 +23,18 @@ extension MovieListViewController: MovieListModelDelegate{
 			myView.tableMovieList.dataSource = self
 			myView.tableMovieList.reloadData()
 			for i in 0..<model.arrayPopularMovie.count {
-				var dict = model.arrayPopularMovie[i] as! [String:AnyObject]
-				dict["page"] = model.currentpage as AnyObject
-				dbhelper.savePoints(dict as [AnyHashable : Any])
+				let dict = PopularMovieORM(initDict: model.arrayPopularMovie[i] as! [String:AnyObject])
+				dict.page = model.currentpage
+				dbhelper.savePoints(dict.convertToDict() as [AnyHashable : Any])
 			}
 		}else{
 			if model.arrayPopularMovie.count > myView.tableMovieList.LoadedRows {
 				var array = [IndexPath]()
 				for i in myView.tableMovieList.LoadedRows..<model.arrayPopularMovie.count {
 					array.append(IndexPath(item: i, section: 0))
-					var dict = model.arrayPopularMovie[i] as! [String:AnyObject]
-					dict["page"] = model.currentpage as AnyObject
-					dbhelper.savePoints(dict as [AnyHashable : Any])
+					let dict = PopularMovieORM(initDict: model.arrayPopularMovie[i] as! [String:AnyObject])
+					dict.page = model.currentpage
+					dbhelper.savePoints(dict.convertToDict() as [AnyHashable : Any])
 				}
 				
 				if array.count > 0{
@@ -55,13 +61,13 @@ extension MovieListViewController: UITableViewDelegate,UITableViewDataSource{
 		return model.arrayPopularMovie.count
 	}
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		return 50
+		return 40
 	}
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-		let Headerview = UIView(frame: CGRect(x: 0, y: 0, width: self.view.getWidth(), height: 50))
+		let Headerview = UIView(frame: CGRect(x: 0, y: 0, width: self.view.getWidth(), height: 40))
 		Headerview.backgroundColor = myView.constants.colorPaleGray
 		Headerview.isUserInteractionEnabled = true
-		let labelTitle = UILabel(frame: CGRect(x: myView.calculatePercentWidth(16), y:  myView.calculatePercentHeight(16), width: self.view.getWidth() , height: 20))
+		let labelTitle = UILabel(frame: CGRect(x: 0, y:  10, width: self.view.getWidth() , height: 20))
 		labelTitle.setAttributes(myView.constants.FontRegular1, fontSize: myView.constants.FontSize15, textColor: myView.constants.colorWarmGray, textAlignment: .center)
 		labelTitle.text = "Popular Movies"
 		Headerview.addSubview(labelTitle)
@@ -114,6 +120,24 @@ extension MovieListViewController: UITableViewDelegate,UITableViewDataSource{
 			return basevalue + myView.calculatePercentHeight(12) + 2
 		}
 	}
+	func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+		if expandedCell == indexPath {
+			let imageheight = myView.calculatePercentHeight(96)
+			let labeltemp = UILabel()
+			labeltemp.numberOfLines = 0
+			labeltemp.setAttributes(myView.constants.FontRegular1, fontSize: myView.constants.FontSize15, textColor: myView.constants.colorWarmGray, textAlignment: .left)
+			let Popularobj = PopularMovieORM(initDict: model.arrayPopularMovie[indexPath.row] as! [String:AnyObject])
+			labeltemp.setTextWithSpacing(Popularobj.overview, space: 0.2)
+			let size = labeltemp.sizeThatFits(CGSize(width: myView.getWidth() - myView.calculatePercentWidth(12), height: CGFloat.greatestFiniteMagnitude))
+			return imageheight + myView.calculatePercentHeight(12) + myView.calculatePercentHeight(12) + 4 + size.height
+		}else{
+			let contentheight:CGFloat = 24 + 18 + 18 + myView.calculatePercentHeight(10)
+			let imageheight = myView.calculatePercentHeight(96)
+			let basevalue = ( imageheight > contentheight ) ? imageheight : contentheight
+			
+			return basevalue + myView.calculatePercentHeight(12) + 2
+		}
+	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let previouspath = expandedCell
@@ -125,7 +149,7 @@ extension MovieListViewController: UITableViewDelegate,UITableViewDataSource{
 		tableView.reloadRows(at: [previouspath,expandedCell], with: .automatic)
 	}
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-		if ((indexPath.row != 0) && (indexPath.row > (model.arrayPopularMovie.count * 40/100)) && (model.currentpage != model.totalpages) && (model.loadmore)) {
+		if ((indexPath.row != 0) && (indexPath.row > (model.arrayPopularMovie.count * 80/100)) && (model.currentpage != model.totalpages) && (model.loadmore)) {
 			model.loadmore = false
 			myView.tableMovieList.addLoadMore()
 			model.fetchFromApi(page: model.currentpage)

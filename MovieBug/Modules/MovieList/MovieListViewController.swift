@@ -21,18 +21,17 @@ class MovieListViewController: BaseViewController {
 		view = MovieListView(frame:  UIScreen.main.bounds)
 		model = MovieListModel()
 		model?.delegate = self
+		myView?.delegate = self
 		dbhelper = DatabaseHelper()
 		dbhelper.initDatabase()
 		NotificationCenter.default.addObserver(self, selector: #selector(internetConnectionChanged), name: NSNotification.Name(rawValue: "INTERNET"), object: nil)
-
-		//myView?.delegate = self
 		startLoading()
 	}
 	
 	func startLoading(){
 		let val = dbhelper.getDetails()
 		if val?.count == 0 {
-			if (self.myView.constants.appDelegatevalue.networkstatus == .notReachable || self.myView.constants.appDelegatevalue.networkstatus == .unknown) {
+			if (self.myView.constants.appDelegatevalue.networkstatus == .notReachable) {
 				self.myView.internetAvailable(false)
 				showAlert(title: "No internet Connection", message: "Please check your internet connection")
 			}else{
@@ -49,7 +48,6 @@ class MovieListViewController: BaseViewController {
 			myView.tableMovieList.dataSource = self
 			myView.tableMovieList.reloadData()
 			myView.tableMovieList.LoadedRows = model.arrayPopularMovie.count
-
 		}
 	}
 	@objc func internetConnectionChanged(){

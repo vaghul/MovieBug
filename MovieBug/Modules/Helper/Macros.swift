@@ -21,14 +21,8 @@ class Macros: NSObject {
 	let FontRegular1: String = "SFUIText-Regular"
 	let FontSemiBold1: String = "SFUIText-Semibold"
 	let FontMedium1: String = "SFUIText-Medium"
-	let FontSize10: CGFloat = 10.0
-	let FontSize11: CGFloat = 11.0
 	let FontSize12: CGFloat = 12.0
-	let FontSize13: CGFloat = 13.0
-	let FontSize14: CGFloat = 14.0
 	let FontSize15: CGFloat = 15.0
-	let FontSize16: CGFloat = 16.0
-	let FontSize17: CGFloat = 17.0
 	let colorWarmGray: UIColor = UIColor(red: 117.0/255.0, green: 117.0/255.0, blue: 117.0/255.0, alpha: 1)
 	let colorPaleGray: UIColor = UIColor(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1)
 	let appDelegatevalue = UIApplication.shared.delegate as! AppDelegate

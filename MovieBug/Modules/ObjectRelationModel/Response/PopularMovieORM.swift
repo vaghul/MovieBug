@@ -18,5 +18,5 @@ class PopularMovieORM: ORMSkeleton {
 	@objc var backdrop_path:String = ""
 	@objc var overview:String = ""
 	@objc var release_date:String = ""
-	
+	@objc var page:String = ""
 }

@@ -44,7 +44,7 @@
 			sql_stmt = [sql_stmt stringByAppendingString:@"backdrop_path text,"];
 			sql_stmt = [sql_stmt stringByAppendingString:@"overview text,"];
 			sql_stmt = [sql_stmt stringByAppendingString:@"release_date text,"];
-			sql_stmt = [sql_stmt stringByAppendingString:@"page text"];
+			sql_stmt = [sql_stmt stringByAppendingString:@"page text)"];
 
 			
 			
@@ -75,27 +75,30 @@
 	const char *dbpath = [databasePath UTF8String];
 	if (sqlite3_open(dbpath, &mySqliteDB) == SQLITE_OK)
 	{
-		NSString *insertSQL = [NSString stringWithFormat:
-							   @"INSERT INTO Movies (id,vote_average,title,popularity,poster_path,backdrop_path,overview,release_date,page) VALUES (%d,%f,'%@',%f,'%@','%@','%@','%@','%@')",
-							   [dict[@"id"] intValue],
-							   [dict[@"vote_average"] floatValue],
-							   dict[@"title"],
-							   [dict[@"popularity"] floatValue],
-							   dict[@"poster_path"],
-							   dict[@"backdrop_path"],
-							   dict[@"overview"],
-							   dict[@"release_date"],
-							   dict[@"page"]];
-							   const char *insert_stmt = [insertSQL UTF8String];
-							   sqlite3_prepare_v2(mySqliteDB, insert_stmt, -1, &statement, NULL);
+		
+		const char *insert_stmt = "INSERT INTO Movies (id,vote_average,title,popularity,poster_path,backdrop_path,overview,release_date,page) VALUES (?,?,?,?,?,?,?,?,?)";
+		//NSLog(@"%@",[[dict objectForKey:@"popularity"] floatValue]);
+		//NSLog(@"%@",dict);
+		sqlite3_prepare_v2(mySqliteDB, insert_stmt, -1, &statement, NULL);
+		sqlite3_bind_int64(statement, 1, [[dict objectForKey:@"id"] intValue]);
+		sqlite3_bind_int64(statement, 2, [[dict objectForKey:@"vote_average"] floatValue]);
+		sqlite3_bind_text(statement, 3, [[dict objectForKey:@"title"] UTF8String], -1, SQLITE_STATIC);
+		sqlite3_bind_int64(statement, 4, [[dict objectForKey:@"popularity"] floatValue]);
+		sqlite3_bind_text(statement, 5, [[dict objectForKey:@"poster_path"] UTF8String], -1, SQLITE_STATIC);
+		sqlite3_bind_text(statement, 6, [[dict objectForKey:@"backdrop_path"] UTF8String], -1, SQLITE_STATIC);
+		sqlite3_bind_text(statement, 7, [[dict objectForKey:@"overview"] UTF8String], -1, SQLITE_STATIC);
+		sqlite3_bind_text(statement, 8, [[dict objectForKey:@"release_date"] UTF8String], -1, SQLITE_STATIC);
+		sqlite3_bind_text(statement, 9, [[dict objectForKey:@"page"] UTF8String], -1, SQLITE_STATIC);
 							   if (sqlite3_step(statement) == SQLITE_DONE)
 							   {
 								   success = true;
+								   NSLog(@"insert done %d",success);
+
 							   }else{
+								   NSLog(@"%@",dict);
 								   NSLog(@"%s SQLITE_ERROR '%s' (%1d)", __FUNCTION__, sqlite3_errmsg(mySqliteDB), sqlite3_errcode(mySqliteDB));
 							   }
 							   
-							   //NSLog(@"insert done %d",success);
 							   sqlite3_finalize(statement);
 							   sqlite3_close(mySqliteDB);
 							   
@@ -115,7 +118,7 @@
 			
 			if (sqlite3_open(dbpath, &mySqliteDB) == SQLITE_OK)
 			{
-				NSString *querySQL =[NSString stringWithFormat:@"SELECT * FROM Movies;"];
+				NSString *querySQL =[NSString stringWithFormat:@"SELECT * FROM Movies"];
 				
 				const char *query_stmt = [querySQL UTF8String];
 				

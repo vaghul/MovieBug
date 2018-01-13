@@ -43,7 +43,9 @@ class ORMSkeleton: NSObject {
 			if let property_name = attr.label as String! {
 				if attr.value is String {
 					dict[property_name] = attr.value as? String as AnyObject?
-				}else{
+				}else if attr.value is NSNumber {
+					dict[property_name] = attr.value as? NSNumber as AnyObject?
+				}else {
 					dict[property_name] = attr.value as? [AnyObject] as AnyObject?
 				}
 			}

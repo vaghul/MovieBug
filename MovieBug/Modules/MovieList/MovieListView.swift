@@ -8,10 +8,16 @@
 
 import UIKit
 
+protocol MovieListViewDelegate: class {
+	func onClickRefresh()
+}
+
 class MovieListView: BaseView {
 
+	weak var delegate: MovieListViewDelegate!
 	var tableMovieList: CustomLoaderTable!
-	
+	var refreshControl:UIRefreshControl!
+
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		self.onCreate()
@@ -28,9 +34,14 @@ class MovieListView: BaseView {
 		tableMovieList.register(MovieListTableViewCell.self, forCellReuseIdentifier: "MovieCell")
 		tableMovieList.separatorStyle = .none
 		tableMovieList.decelerationRate = UIScrollViewDecelerationRateFast
+		refreshControl = UIRefreshControl()
+		refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+
 		addSubview(tableMovieList)
 	}
-	
+	@objc func refresh(_ refreshControl: UIRefreshControl) {
+		delegate?.onClickRefresh()
+	}
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		

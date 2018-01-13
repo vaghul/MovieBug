@@ -22,7 +22,7 @@ class BaseView: UIView {
 		overlayView.clipsToBounds = true
 		overlayView.layer.zPosition = 1
 		myActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
-		myActivityIndicator.activityIndicatorViewStyle = .whiteLarge
+		myActivityIndicator.activityIndicatorViewStyle = .gray
 		
 		overlayView.addSubview(myActivityIndicator)
 		
@@ -49,11 +49,13 @@ class BaseView: UIView {
 	}
 	
 	func showLoader(){
+		self.alpha = 0.8
 		overlayView.layer.zPosition = 10
 		getAppDelegate().window?.addSubview(overlayView)
 		myActivityIndicator.startAnimating()
 	}
 	func removeLoader(){
+		self.alpha = 1.0
 		myActivityIndicator.stopAnimating()
 		overlayView.removeFromSuperview()
 	}

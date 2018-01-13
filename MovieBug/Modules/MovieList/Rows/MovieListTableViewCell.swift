@@ -39,15 +39,16 @@ class MovieListTableViewCell: UITableViewCell {
 		contentView.addSubview(imageThumb)
 		
 		labelTitle = UILabel()
+		labelTitle.numberOfLines = 2
 		labelTitle.setAttributes(constants.FontSemiBold1, fontSize: constants.FontSize15, textColor: .black, textAlignment: .left)
 		contentView.addSubview(labelTitle)
 		
 		labelRating = UILabel()
-		labelRating.setAttributes(constants.FontRegular1, fontSize: constants.FontSize13, textColor: constants.colorWarmGray, textAlignment: .left)
+		labelRating.setAttributes(constants.FontRegular1, fontSize: constants.FontSize12, textColor: constants.colorWarmGray, textAlignment: .left)
 		contentView.addSubview(labelRating)
 		
 		labelReleaseDate = UILabel()
-		labelReleaseDate.setAttributes(constants.FontRegular1, fontSize: constants.FontSize13, textColor: constants.colorWarmGray, textAlignment: .left)
+		labelReleaseDate.setAttributes(constants.FontRegular1, fontSize: constants.FontSize12, textColor: constants.colorWarmGray, textAlignment: .left)
 		contentView.addSubview(labelReleaseDate)
 		
 		labelOverview = UILabel()
@@ -77,13 +78,14 @@ class MovieListTableViewCell: UITableViewCell {
 		
 		imageThumb.frame = CGRect(x: calculatePercentWidth(6), y: calculatePercentHeight(6) , width: calculatePercentWidth(96), height: calculatePercentHeight(96))
 		
-		labelTitle.frame = CGRect(x: imageThumb.calculateOffSetX() + calculatePercentWidth(5), y: imageThumb.getY(), width: self.getWidth() - (imageThumb.calculateOffSetX() + calculatePercentWidth(5)), height: 24)
+		var size = labelTitle.sizeThatFits(CGSize(width: self.getWidth()-(imageThumb.calculateOffSetX() + calculatePercentWidth(5)), height: CGFloat.greatestFiniteMagnitude))
+		labelTitle.frame = CGRect(x: imageThumb.calculateOffSetX() + calculatePercentWidth(5), y: imageThumb.getY(), width: self.getWidth() - (imageThumb.calculateOffSetX() + calculatePercentWidth(5)), height: size.height)
 		
-		labelRating.frame = CGRect(x: imageThumb.calculateOffSetX() + calculatePercentWidth(5), y: labelTitle.calculateOffSetY() + calculatePercentHeight(5), width: self.getWidth() - (imageThumb.calculateOffSetX() + calculatePercentWidth(5)), height: 18)
+		labelRating.frame = CGRect(x: imageThumb.calculateOffSetX() + calculatePercentWidth(5), y: labelTitle.calculateOffSetY() + calculatePercentHeight(5), width: self.getWidth() - (imageThumb.calculateOffSetX() + calculatePercentWidth(5)), height: 20)
 		
 		labelReleaseDate.frame = CGRect(x: imageThumb.calculateOffSetX() + calculatePercentWidth(5), y: labelRating.calculateOffSetY() + calculatePercentHeight(5), width: self.getWidth() - (imageThumb.calculateOffSetX() + calculatePercentWidth(5)), height: 18)
 		
-		let size = labelOverview.sizeThatFits(CGSize(width: self.getWidth()-calculatePercentWidth(12), height: CGFloat.greatestFiniteMagnitude))
+		size = labelOverview.sizeThatFits(CGSize(width: self.getWidth()-calculatePercentWidth(12), height: CGFloat.greatestFiniteMagnitude))
 		labelOverview.frame = CGRect(x: calculatePercentWidth(6), y: imageThumb.calculateOffSetY() + calculatePercentHeight(6), width: self.getWidth() - calculatePercentWidth(12), height: size.height)
 		
 		lineDivider.frame = CGRect(x: calculatePercentWidth(16), y: self.getHeight() - 1, width: self.getWidth() - calculatePercentWidth(32), height: 1)

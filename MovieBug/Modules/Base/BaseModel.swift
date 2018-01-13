@@ -34,10 +34,10 @@ class BaseModel: NSObject {
 						if(httpresp.statusCode==200){
 							do{
 								let respdata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
-								print("============Web Response==============")
-								print(respdata)
+//								print("============Web Response==============")
+//								print(respdata)
+//								print("======================================")
 								self.responceRecieved(respdata as! [String : AnyObject], method: method)
-								print("======================================")
 							}catch{
 								print("error \(error)")
 								print("Parsing Error");
