@@ -11,10 +11,10 @@ import UIKit
 class BaseView: UIView {
 	private var overlayView:UIView!
 	private var myActivityIndicator:UIActivityIndicatorView!
-	
+	var constants:Macros!
 	func onCreate(){
-		
-		
+		self.backgroundColor = .white
+		constants = Macros()
 		overlayView = UIView()
 		overlayView.clipsToBounds = true
 		overlayView.layer.zPosition = 1

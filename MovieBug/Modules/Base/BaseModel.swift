@@ -19,7 +19,7 @@ class BaseModel: NSObject {
 		let param = body.stringFromHttpParameters()
 		var request = URLRequest(url: URL(string: "\(urlstring)?\(param)")!)
 		request.httpMethod = "GET"
-		//		request.setValue("6d9f729b765aae27f45e5ef9150fa073f8a61b94", forHTTPHeaderField: "X-AUTHORIZATION")
+		print(request.url)
 		do{
 			request.timeoutInterval = 60.0
 			let session = URLSession(configuration: URLSessionConfiguration.default)
@@ -36,6 +36,7 @@ class BaseModel: NSObject {
 								let respdata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
 								print("============Web Response==============")
 								print(respdata)
+								self.responceRecieved(respdata as! [String : AnyObject], method: method)
 								print("======================================")
 							}catch{
 								print("error \(error)")

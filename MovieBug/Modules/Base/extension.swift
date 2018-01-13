@@ -99,3 +99,55 @@ extension UIImageView {
 }
 
 
+class CustomLoaderTable : UITableView {
+	var LoadedRows:Int = 0
+	
+	func removeLoadMore(){
+		UIView.animate(withDuration: 0.2, animations: {
+			self.tableFooterView?.isHidden = true
+		}, completion: { (Bool) in
+			self.tableFooterView?.isHidden = false
+			self.tableFooterView = nil
+		})
+	}
+	func addLoadMore(){
+		let viewTableFooter = UIView(frame: CGRect(x: 0, y: 0, width: self.getWidth(), height: 60))
+		let temp = UIView(frame: CGRect(x: 0, y: 0, width: 130, height: 20))
+		let indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+		indicator.activityIndicatorViewStyle = .gray
+		indicator.startAnimating()
+		temp.addSubview(indicator)
+		let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 130, height: 20))
+		lbl.textAlignment = .right
+		lbl.font =  UIFont(name: "SFUIText-Regular", size: 16)
+		lbl.text = "Loading More"
+		lbl.textColor = UIColor.init(red: 36/255, green: 38/255, blue: 39/255, alpha: 0.5)
+		temp.addSubview(lbl)
+		viewTableFooter.addSubview(temp)
+		temp.center = viewTableFooter.center
+		self.tableFooterView = viewTableFooter
+	}
+}
+
+
+extension UITableViewCell {
+	
+	func calculatePercentWidth(_ val:CGFloat) -> CGFloat {
+		
+		let width = UIScreen.main.bounds.width
+		
+		return ((width * ((val * 100) / 375))/100)
+	}
+	
+	func calculatePercentHeight(_ val:CGFloat) -> CGFloat {
+		
+		var height = UIScreen.main.bounds.height
+		
+		if height == 812{
+			height = 667
+		}
+		
+		return ((height * ((val * 100) / 667))/100)
+	}
+}
+

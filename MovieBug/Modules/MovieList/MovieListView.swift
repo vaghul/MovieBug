@@ -10,12 +10,29 @@ import UIKit
 
 class MovieListView: BaseView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-
+	var tableMovieList: CustomLoaderTable!
+	
+	override init(frame: CGRect) {
+		super.init(frame: frame)
+		self.onCreate()
+	}
+	
+	required init?(coder aDecoder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+	
+	override func onCreate() {
+		super.onCreate()
+		
+		tableMovieList = CustomLoaderTable()
+		tableMovieList.register(MovieListTableViewCell.self, forCellReuseIdentifier: "MovieCell")
+		tableMovieList.separatorStyle = .none
+		addSubview(tableMovieList)
+	}
+	
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		
+		tableMovieList.frame = CGRect(x: 0, y: getSafeAreaTop(), width: self.getWidth(), height: self.getHeight() - getSafeAreaTop() - getSafeAreaBottom())
+	}
 }
