@@ -94,7 +94,7 @@ extension MovieListViewController: UITableViewDelegate,UITableViewDataSource{
 			let Popularobj = PopularMovieORM(initDict: model.arrayPopularMovie[indexPath.row] as! [String:AnyObject])
 			labeltemp.setTextWithSpacing(Popularobj.overview, space: 0.2)
 			let size = labeltemp.sizeThatFits(CGSize(width: myView.getWidth() - myView.calculatePercentWidth(12), height: CGFloat.greatestFiniteMagnitude))
-			return imageheight + myView.calculatePercentHeight(12) + myView.calculatePercentHeight(12) + 2 + size.height
+			return imageheight + myView.calculatePercentHeight(12) + myView.calculatePercentHeight(12) + 4 + size.height
 		}else{
 			let contentheight:CGFloat = 24 + 18 + 18 + myView.calculatePercentHeight(10)
 			let imageheight = myView.calculatePercentHeight(96)
@@ -114,7 +114,7 @@ extension MovieListViewController: UITableViewDelegate,UITableViewDataSource{
 		tableView.reloadRows(at: [previouspath,expandedCell], with: .automatic)
 	}
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-		if ((indexPath.row != 0) && (indexPath.row > (model.arrayPopularMovie.count * 80/100)) && (model.currentpage != model.totalpages) && (model.loadmore)) {
+		if ((indexPath.row != 0) && (indexPath.row > (model.arrayPopularMovie.count * 40/100)) && (model.currentpage != model.totalpages) && (model.loadmore)) {
 			model.loadmore = false
 			myView.tableMovieList.addLoadMore()
 			model.fetchFromApi(page: model.currentpage)

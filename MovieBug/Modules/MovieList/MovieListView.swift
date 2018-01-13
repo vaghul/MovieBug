@@ -27,6 +27,7 @@ class MovieListView: BaseView {
 		tableMovieList = CustomLoaderTable()
 		tableMovieList.register(MovieListTableViewCell.self, forCellReuseIdentifier: "MovieCell")
 		tableMovieList.separatorStyle = .none
+		tableMovieList.decelerationRate = UIScrollViewDecelerationRateFast
 		addSubview(tableMovieList)
 	}
 	
