@@ -67,8 +67,8 @@ extension MovieListViewController: UITableViewDelegate,UITableViewDataSource{
 		let Headerview = UIView(frame: CGRect(x: 0, y: 0, width: self.view.getWidth(), height: 40))
 		Headerview.backgroundColor = myView.constants.colorPaleGray
 		Headerview.isUserInteractionEnabled = true
-		let labelTitle = UILabel(frame: CGRect(x: 0, y:  10, width: self.view.getWidth() , height: 20))
-		labelTitle.setAttributes(myView.constants.FontRegular1, fontSize: myView.constants.FontSize15, textColor: myView.constants.colorWarmGray, textAlignment: .center)
+		let labelTitle = UILabel(frame: CGRect(x: myView.calculatePercentWidth(16), y:  10, width: self.view.getWidth() , height: 20))
+		labelTitle.setAttributes(myView.constants.FontRegular1, fontSize: myView.constants.FontSize15, textColor: myView.constants.colorWarmGray, textAlignment: .left)
 		labelTitle.text = "Popular Movies"
 		Headerview.addSubview(labelTitle)
 		return Headerview
