@@ -149,10 +149,12 @@ extension MovieListViewController: UITableViewDelegate,UITableViewDataSource{
 		tableView.reloadRows(at: [previouspath,expandedCell], with: .automatic)
 	}
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-		if ((indexPath.row != 0) && (indexPath.row > (model.arrayPopularMovie.count * 80/100)) && (model.currentpage != model.totalpages) && (model.loadmore)) {
-			model.loadmore = false
-			myView.tableMovieList.addLoadMore()
-			model.fetchFromApi(page: model.currentpage)
+		if (self.myView.constants.appDelegatevalue.networkstatus != .notReachable && self.myView.constants.appDelegatevalue.networkstatus != .unknown) {
+			if ((indexPath.row != 0) && (indexPath.row > (model.arrayPopularMovie.count * 80/100)) && (model.currentpage != model.totalpages) && (model.loadmore)) {
+				model.loadmore = false
+				myView.tableMovieList.addLoadMore()
+				model.fetchFromApi(page: model.currentpage)
+			}
 		}
 	}
 }

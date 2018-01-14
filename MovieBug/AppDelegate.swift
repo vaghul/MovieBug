@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		navigation.navigationBar.isHidden = true
 		self.window?.rootViewController = navigation
 		self.window?.makeKeyAndVisible()
+		AFNetworkReachabilityManager.shared().startMonitoring()
 		networkstatus = AFNetworkReachabilityManager.shared().networkReachabilityStatus
 
 		NotificationCenter.default.addObserver(self, selector: #selector(handleNetworkChange), name: NSNotification.Name.AFNetworkingReachabilityDidChange, object: nil)

@@ -44,7 +44,7 @@ class BaseView: UIView {
 		myActivityIndicator.center = CGPoint(x: overlayView.bounds.width / 2, y: overlayView.bounds.height / 2)
 		
 		viewInternetConnevtivity.frame = CGRect(x: 0, y: getSafeAreaTop(), width: self.getWidth(), height: calculatePercentHeight(60))
-		labelInternetConnevtivity.frame = CGRect(x: 0, y: getSafeAreaTop(), width: viewInternetConnevtivity.frame.size.width, height: calculatePercentHeight(60))
+		labelInternetConnevtivity.frame = CGRect(x: 0, y: 0, width: viewInternetConnevtivity.frame.size.width, height: calculatePercentHeight(60))
 
 	}
 	
