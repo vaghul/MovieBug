@@ -65,10 +65,10 @@ extension MovieListViewController: UITableViewDelegate,UITableViewDataSource{
 	}
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let Headerview = UIView(frame: CGRect(x: 0, y: 0, width: self.view.getWidth(), height: 40))
-		Headerview.backgroundColor = myView.constants.colorPaleGray
+		Headerview.backgroundColor = Macros.sharedInstance.colorPaleGray
 		Headerview.isUserInteractionEnabled = true
 		let labelTitle = UILabel(frame: CGRect(x: myView.calculatePercentWidth(16), y:  10, width: self.view.getWidth() , height: 20))
-		labelTitle.setAttributes(myView.constants.FontRegular1, fontSize: myView.constants.FontSize15, textColor: myView.constants.colorWarmGray, textAlignment: .left)
+		labelTitle.setAttributes(Macros.sharedInstance.FontRegular1, fontSize: Macros.sharedInstance.FontSize15, textColor: Macros.sharedInstance.colorWarmGray, textAlignment: .left)
 		labelTitle.text = "Popular Movies"
 		Headerview.addSubview(labelTitle)
 		return Headerview
@@ -80,7 +80,7 @@ extension MovieListViewController: UITableViewDelegate,UITableViewDataSource{
 		cell.setCellThubmailImage(image: StaticImage.sharedInstance.imagePlaceholder!)
 		cell.setCellValue(object: Popularobj,showfull: expandedCell == indexPath)
 		cell.CellIndex = indexPath
-		let imageurl = "\(myView.constants.THUMBIMAGEPREFIX)\(Popularobj.poster_path)"
+		let imageurl = "\(Macros.sharedInstance.THUMBIMAGEPREFIX)\(Popularobj.poster_path)"
 		if(Popularobj.poster_path.count > 0){
 			model.getImageDataFromUrl(imageurl, completion: { (data, response, error) in
 				DispatchQueue.main.async(execute: {
@@ -107,7 +107,7 @@ extension MovieListViewController: UITableViewDelegate,UITableViewDataSource{
 			let imageheight = myView.calculatePercentHeight(96)
 			let labeltemp = UILabel()
 			labeltemp.numberOfLines = 0
-			labeltemp.setAttributes(myView.constants.FontRegular1, fontSize: myView.constants.FontSize15, textColor: myView.constants.colorWarmGray, textAlignment: .left)
+			labeltemp.setAttributes(Macros.sharedInstance.FontRegular1, fontSize: Macros.sharedInstance.FontSize15, textColor: Macros.sharedInstance.colorWarmGray, textAlignment: .left)
 			let Popularobj = PopularMovieORM(initDict: model.arrayPopularMovie[indexPath.row] as! [String:AnyObject])
 			labeltemp.setTextWithSpacing(Popularobj.overview, space: 0.2)
 			let size = labeltemp.sizeThatFits(CGSize(width: myView.getWidth() - myView.calculatePercentWidth(12), height: CGFloat.greatestFiniteMagnitude))
@@ -125,7 +125,7 @@ extension MovieListViewController: UITableViewDelegate,UITableViewDataSource{
 			let imageheight = myView.calculatePercentHeight(96)
 			let labeltemp = UILabel()
 			labeltemp.numberOfLines = 0
-			labeltemp.setAttributes(myView.constants.FontRegular1, fontSize: myView.constants.FontSize15, textColor: myView.constants.colorWarmGray, textAlignment: .left)
+			labeltemp.setAttributes(Macros.sharedInstance.FontRegular1, fontSize: Macros.sharedInstance.FontSize15, textColor: Macros.sharedInstance.colorWarmGray, textAlignment: .left)
 			let Popularobj = PopularMovieORM(initDict: model.arrayPopularMovie[indexPath.row] as! [String:AnyObject])
 			labeltemp.setTextWithSpacing(Popularobj.overview, space: 0.2)
 			let size = labeltemp.sizeThatFits(CGSize(width: myView.getWidth() - myView.calculatePercentWidth(12), height: CGFloat.greatestFiniteMagnitude))
@@ -149,7 +149,7 @@ extension MovieListViewController: UITableViewDelegate,UITableViewDataSource{
 		tableView.reloadRows(at: [previouspath,expandedCell], with: .automatic)
 	}
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-		if (self.myView.constants.appDelegatevalue.networkstatus != .notReachable && self.myView.constants.appDelegatevalue.networkstatus != .unknown) {
+		if (Macros.sharedInstance.appDelegatevalue.networkstatus != .notReachable && Macros.sharedInstance.appDelegatevalue.networkstatus != .unknown) {
 			if ((indexPath.row != 0) && (indexPath.row > (model.arrayPopularMovie.count * 80/100)) && (model.currentpage != model.totalpages) && (model.loadmore)) {
 				model.loadmore = false
 				myView.tableMovieList.addLoadMore()

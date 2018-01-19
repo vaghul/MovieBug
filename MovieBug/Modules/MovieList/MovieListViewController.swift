@@ -31,7 +31,7 @@ class MovieListViewController: BaseViewController {
 	func startLoading(){
 		let val = dbhelper.getDetails()
 		if val?.count == 0 {
-			if (self.myView.constants.appDelegatevalue.networkstatus == .notReachable) {
+			if (Macros.sharedInstance.appDelegatevalue.networkstatus == .notReachable) {
 				self.myView.internetAvailable(false)
 				showAlert(title: "No internet Connection", message: "Please check your internet connection")
 			}else{
@@ -52,7 +52,7 @@ class MovieListViewController: BaseViewController {
 	}
 	@objc func internetConnectionChanged(){
 		DispatchQueue.main.async {
-			if (self.myView.constants.appDelegatevalue.networkstatus == .notReachable || self.myView.constants.appDelegatevalue.networkstatus == .unknown) {
+			if (Macros.sharedInstance.appDelegatevalue.networkstatus == .notReachable || Macros.sharedInstance.appDelegatevalue.networkstatus == .unknown) {
 				self.myView.internetAvailable(false)
 			}else{
 				self.myView.internetAvailable(true)

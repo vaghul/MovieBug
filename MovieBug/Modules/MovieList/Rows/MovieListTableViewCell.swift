@@ -15,7 +15,6 @@ class MovieListTableViewCell: UITableViewCell {
 	private var labelRating:UILabel!
 	private var labelReleaseDate:UILabel!
 	private var labelOverview:UILabel!
-	private var constants:Macros!
 	private var lineDivider:UIView!
 	var CellIndex:IndexPath!
 
@@ -29,7 +28,6 @@ class MovieListTableViewCell: UITableViewCell {
 	}
 	
 	func onCreate(){
-		constants = Macros()
 		
 		imageThumb = UIImageView()
 		imageThumb.clipsToBounds = true
@@ -40,20 +38,20 @@ class MovieListTableViewCell: UITableViewCell {
 		
 		labelTitle = UILabel()
 		labelTitle.numberOfLines = 2
-		labelTitle.setAttributes(constants.FontSemiBold1, fontSize: constants.FontSize15, textColor: .black, textAlignment: .left)
+		labelTitle.setAttributes(Macros.sharedInstance.FontSemiBold1, fontSize: Macros.sharedInstance.FontSize15, textColor: .black, textAlignment: .left)
 		contentView.addSubview(labelTitle)
 		
 		labelRating = UILabel()
-		labelRating.setAttributes(constants.FontRegular1, fontSize: constants.FontSize12, textColor: constants.colorWarmGray, textAlignment: .left)
+		labelRating.setAttributes(Macros.sharedInstance.FontRegular1, fontSize: Macros.sharedInstance.FontSize12, textColor: Macros.sharedInstance.colorWarmGray, textAlignment: .left)
 		contentView.addSubview(labelRating)
 		
 		labelReleaseDate = UILabel()
-		labelReleaseDate.setAttributes(constants.FontRegular1, fontSize: constants.FontSize12, textColor: constants.colorWarmGray, textAlignment: .left)
+		labelReleaseDate.setAttributes(Macros.sharedInstance.FontRegular1, fontSize: Macros.sharedInstance.FontSize12, textColor: Macros.sharedInstance.colorWarmGray, textAlignment: .left)
 		contentView.addSubview(labelReleaseDate)
 		
 		labelOverview = UILabel()
 		labelOverview.numberOfLines = 0
-		labelOverview.setAttributes(constants.FontRegular1, fontSize: constants.FontSize15, textColor: .black, textAlignment: .left)
+		labelOverview.setAttributes(Macros.sharedInstance.FontRegular1, fontSize: Macros.sharedInstance.FontSize15, textColor: .black, textAlignment: .left)
 		labelOverview.isHidden = true
 		contentView.addSubview(labelOverview)
 		

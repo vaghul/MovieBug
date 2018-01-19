@@ -14,10 +14,8 @@ class BaseView: UIView {
 	private var viewInternetConnevtivity:UIView!
 	private var labelInternetConnevtivity:UILabel!
 
-	var constants:Macros!
 	func onCreate(){
 		self.backgroundColor = .white
-		constants = Macros()
 		overlayView = UIView()
 		overlayView.clipsToBounds = true
 		overlayView.layer.zPosition = 1

@@ -10,6 +10,7 @@ import UIKit
 
 class Macros: NSObject {
 	
+	static let sharedInstance = Macros()
 	let API_KEY:String = "9f1757537f4996a14e1ac730ad6e6153"
 	let THUMBIMAGEPREFIX:String = "https://image.tmdb.org/t/p/w92"
 	let POSTERIMAGEPREFIX:String = "https://image.tmdb.org/t/p/w300"

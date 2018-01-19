@@ -10,7 +10,6 @@ import UIKit
 
 class BaseModel: NSObject {
 
-	var constants = Macros()
 	
 	func MakeGetRequest(_ urlstring:String,body:[String:AnyObject],method:String) 	{
 		
@@ -19,7 +18,7 @@ class BaseModel: NSObject {
 		let param = body.stringFromHttpParameters()
 		var request = URLRequest(url: URL(string: "\(urlstring)?\(param)")!)
 		request.httpMethod = "GET"
-		print(request.url)
+		//print(request.url)
 		do{
 			request.timeoutInterval = 60.0
 			let session = URLSession(configuration: URLSessionConfiguration.default)
@@ -27,7 +26,8 @@ class BaseModel: NSObject {
 			let task:URLSessionDataTask = session.dataTask(with: request, completionHandler: {(
 				data , response, error) in
 				
-				DispatchQueue.main.async(execute: {
+				DispatchQueue.main.async { [weak self] in
+					guard let weakself = self else { return }
 					UIApplication.shared.isNetworkActivityIndicatorVisible = false
 					if((error == nil)){
 						let httpresp:HTTPURLResponse = (response as? HTTPURLResponse)!
@@ -37,21 +37,21 @@ class BaseModel: NSObject {
 //								print("============Web Response==============")
 //								print(respdata)
 //								print("======================================")
-								self.responceRecieved(respdata as! [String : AnyObject], method: method)
+								weakself.responceRecieved(respdata as! [String : AnyObject], method: method)
 							}catch{
 								print("error \(error)")
 								print("Parsing Error");
-								self.errorRecieved("error",method: method)
+								weakself.errorRecieved("error",method: method)
 							}
 						}else{ // end of status code
 							print("status code failure");
-							self.errorRecieved("statusfailed",method: method)
+							weakself.errorRecieved("statusfailed",method: method)
 						}
 					}else{ // end of error
-						self.errorRecieved("requestfailed",method: method)
+						weakself.errorRecieved("requestfailed",method: method)
 					}
 					
-				}) // end of main thread
+				} // end of main thread
 				
 			}) // end of session task
 			

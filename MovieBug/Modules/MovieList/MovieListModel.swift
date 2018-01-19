@@ -58,12 +58,12 @@ class MovieListModel: BaseModel {
 	
 	func fetchFromApi(page:String){
 		let param = PopularMoviesRequest()
-		param.api_key = constants.API_KEY
+		param.api_key = Macros.sharedInstance.API_KEY
 		param.page = page
 		if param.page == "1"{
-			MakeGetRequest(constants.LISTPOPULARMOVIEURL, body: param.convertToDict(), method: "popularmovies")
+			MakeGetRequest(Macros.sharedInstance.LISTPOPULARMOVIEURL, body: param.convertToDict(), method: "popularmovies")
 		}else{
-			MakeGetRequest(constants.LISTPOPULARMOVIEURL, body: param.convertToDict(), method: "popularmoviespagination")
+			MakeGetRequest(Macros.sharedInstance.LISTPOPULARMOVIEURL, body: param.convertToDict(), method: "popularmoviespagination")
 		}
 	}
 }
